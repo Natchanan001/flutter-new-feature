@@ -7,8 +7,13 @@ plugins {
 android {
     namespace = "com.example.flutter_new_feature"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "28.2.13676358"
 
+    externalNativeBuild {
+        cmake {
+            version = "3.31.5"
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17

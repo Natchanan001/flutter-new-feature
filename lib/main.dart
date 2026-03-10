@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart'; 
+import 'map_screen.dart'; // แยกหน้าแมพออกไป
+import 'voice_screen.dart'; // หน้าฟีเจอร์ใหม่
 
 void main() => runApp(const MyApp());
 
@@ -9,45 +10,55 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Google Map',
+      title: 'Map & Voice App',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 36, 190, 56)),
+        useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Binner Map Test'),
+      home: const RootPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
+class RootPage extends StatefulWidget {
+  const RootPage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<RootPage> createState() => _RootPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  late GoogleMapController mapController;
-  // พิกัดศูนย์กลาง มช. (หน้าอ่างแก้ว)
-  final LatLng _center = const LatLng(18.80013349482597, 98.95028403641035);
+class _RootPageState extends State<RootPage> {
+  int _currentIndex = 0;
 
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
+  // รวมร่างทุกกลุ่มไว้ตรงนี้ค่ะ พส.
+  final List<Widget> _pages = [
+    const MapScreen(),   // หน้ากลุ่ม 1: Binner
+    const VoiceScreen(), // หน้ากลุ่ม 2: Voice Workshop
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
-      body: GoogleMap( 
-        onMapCreated: _onMapCreated,
-        initialCameraPosition: CameraPosition(
-          target: _center,
-          zoom: 15.0,
-        ),
+      body: _pages[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map_outlined),
+            activeIcon: Icon(Icons.map),
+            label: 'Binner Map',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.mic_none),
+            activeIcon: Icon(Icons.mic),
+            label: 'Voice Workshop',
+          ),
+        ],
       ),
     );
   }
