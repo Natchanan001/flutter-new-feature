@@ -10,6 +10,12 @@ This project is a starting point for a Flutter application.
 <img width="235" height="489" alt="Screenshot 2026-03-10 at 20 01 10" src="https://github.com/user-attachments/assets/4a316244-c693-4350-a090-f937af843173" />
 
 
+## Voice (Speed-to-Text) feature (Group 3)
+<img width="235" height="497" alt="Screenshot 2026-03-11 at 05 32 49" src="https://github.com/user-attachments/assets/93736c38-24a5-431f-89c2-3261de34d8ea" />
+
+
+
+
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
