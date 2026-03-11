@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'map_screen.dart'; // แยกหน้าแมพออกไป
-import 'voice_screen.dart'; // หน้าฟีเจอร์ใหม่
+import 'map_screen.dart'; 
+import 'voice_screen.dart';
+import 'screens/health_input_screen.dart';
+import 'screens/health_analytics_screen.dart';
+
+List<double> bmiHistory = [22.0, 23.5, 21.8];
 
 void main() => runApp(const MyApp());
 
@@ -34,6 +38,8 @@ class _RootPageState extends State<RootPage> {
   final List<Widget> _pages = [
     const MapScreen(),   // หน้ากลุ่ม 1: Binner
     const VoiceScreen(), // หน้ากลุ่ม 2: Voice Workshop
+    const HealthInputScreen(),    // กลุ่ม Happy Superman (บันทึกข้อมูล)
+    const HealthAnalyticsScreen(),
   ];
 
   @override
@@ -47,6 +53,10 @@ class _RootPageState extends State<RootPage> {
             _currentIndex = index;
           });
         },
+        type: BottomNavigationBarType.fixed, 
+        selectedItemColor: const Color.fromARGB(255, 36, 190, 56), 
+        unselectedItemColor: Colors.grey, 
+
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.map_outlined),
@@ -57,6 +67,16 @@ class _RootPageState extends State<RootPage> {
             icon: Icon(Icons.mic_none),
             activeIcon: Icon(Icons.mic),
             label: 'Voice Workshop',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.medical_services_outlined),
+            activeIcon: Icon(Icons.medical_services),
+            label: 'Health Input',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.show_chart_outlined),
+            activeIcon: Icon(Icons.show_chart),
+            label: 'Health Analytics',
           ),
         ],
       ),
