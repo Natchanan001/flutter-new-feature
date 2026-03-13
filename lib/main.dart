@@ -1,12 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'map_screen.dart'; 
 import 'voice_screen.dart';
 import 'screens/health_input_screen.dart';
 import 'screens/health_analytics_screen.dart';
+import 'screens/cart_screen.dart';
+import 'models/cart_item.dart';
+import 'screens/smoothie_menu_screen.dart';
+import 'screens/order_history_screen.dart'; // หรือ 'screens/order_history_screen.dart' ตามที่ พส. วางไฟล์ไว้
 
 List<double> bmiHistory = [22.0, 23.5, 21.8];
 
-void main() => runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(CartItemAdapter());
+
+  await Hive.openBox<CartItem>('cart');
+  await Hive.openBox('orders');
+  
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -40,6 +54,9 @@ class _RootPageState extends State<RootPage> {
     const VoiceScreen(), // หน้ากลุ่ม 2: Voice Workshop
     const HealthInputScreen(),    // กลุ่ม Happy Superman (บันทึกข้อมูล)
     const HealthAnalyticsScreen(),
+    const SmoothieMenuScreen(),
+    const CartScreen(),
+    const OrderHistoryScreen(), // หน้าประวัติการสั่งซื้อ (กลุ่ม Smoothie)
   ];
 
   @override
@@ -57,28 +74,38 @@ class _RootPageState extends State<RootPage> {
         selectedItemColor: const Color.fromARGB(255, 36, 190, 56), 
         unselectedItemColor: Colors.grey, 
 
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map_outlined),
-            activeIcon: Icon(Icons.map),
-            label: 'Binner Map',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.mic_none),
-            activeIcon: Icon(Icons.mic),
-            label: 'Voice Workshop',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.medical_services_outlined),
-            activeIcon: Icon(Icons.medical_services),
-            label: 'Health Input',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.show_chart_outlined),
-            activeIcon: Icon(Icons.show_chart),
-            label: 'Health Analytics',
-          ),
-        ],
+  items: const [
+  BottomNavigationBarItem(
+    icon: Icon(Icons.map_outlined),
+    activeIcon: Icon(Icons.map),
+    label: 'Binner Map',
+  ),
+  BottomNavigationBarItem(
+    icon: Icon(Icons.mic_none),
+    activeIcon: Icon(Icons.mic),
+    label: 'Voice Workshop',
+  ),
+  BottomNavigationBarItem(
+    icon: Icon(Icons.medical_services_outlined),
+    activeIcon: Icon(Icons.medical_services),
+    label: 'Health Input',
+  ),
+  BottomNavigationBarItem(
+    icon: Icon(Icons.show_chart_outlined),
+    activeIcon: Icon(Icons.show_chart),
+    label: 'Health Analytics',
+  ),
+  BottomNavigationBarItem(
+    icon: Icon(Icons.restaurant_menu),
+    activeIcon: Icon(Icons.restaurant_menu),
+    label: 'Menu',
+  ),
+  BottomNavigationBarItem(
+    icon: Icon(Icons.shopping_cart_outlined),
+    activeIcon: Icon(Icons.shopping_cart),
+    label: 'Cart',
+  ),
+],
       ),
     );
   }
